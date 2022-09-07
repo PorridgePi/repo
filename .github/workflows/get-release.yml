@@ -8,11 +8,14 @@ on:
 jobs:
   update-file:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       # Checkout repository for job to access it
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_REPO_TOKEN }}
 
       # Write latest release version and IPA URL to file
       - name: Fetch and write latest release version and IPA URL to file
