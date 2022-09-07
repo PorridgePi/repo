@@ -27,7 +27,7 @@ jobs:
       - name: Obtain uYouPlus URL from file
         id: getURL
         run: |
-          echo ::set-output name=uYouPlusURL::$(sed -n 2p uYouPlus-latest.txt)
+          echo ::set-output name=uYouPlusURL::$(sed -n 2p release-versions/uYouPlus-version.txt)
 
       # Run permasigner
       - name: Run script
