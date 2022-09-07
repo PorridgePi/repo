@@ -1,4 +1,4 @@
-name: Build Deb
+name: build-deb
 
 on:
   push:
@@ -7,15 +7,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  run:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Checkout repository for job to access it
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Setup which version of Python to use
+      # Set up which version of Python to use
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
@@ -27,22 +27,36 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install permasigner
 
-      # Obtain uYouPlus URL from file
-      - name: Obtain uYouPlus URL from file
+      # Obtain IPA URL from file
+      - name: Obtain IPA URL from file
         id: getURL
         run: |
           echo "::set-output name=uYouPlusURL::$(sed -n 2p release-versions/uYouPlus-version.txt)"
           echo "::set-output name=uYouPlusVersion::$(sed -n 1p release-versions/uYouPlus-version.txt)"
 
-      # Run permasigner
-      - name: Run script
+      # Build DEB from IPA with permasigner
+      - name: Build DEB from IPA with permasigner
         run: permasigner -u ${{ steps.getURL.outputs.uYouPlusURL }} -d -o debs/
 
-      # Commit deb to repo
-      - name: Commit latest release version
+      # Generate Packages.bz2 with scripts
+      - name: Generate Packages.bz2 with scripts
+        run: |
+          bash scripts/UpdateRepo.sh
+
+      # Configure Git
+      - name: Configure Git
         run: |
           git config --global user.name 'latest-release-bot'
           git config --global user.email 'latest-release-bot@example.com'
+
+      # Commit DEB file(s) and updated Packages.bz2 to repository
+      - name: Commit DEB file(s) and updated Packages.bz2 to repository
+        run: |
           git add debs/
+          git add Packages.bz2
           git commit -m "update: uYouPlus ${{ steps.getURL.outputs.uYouPlusVersion }}"
+
+      # Push commits to GitHub
+      - name: Push commits to GitHub
+        run: |
           git push
