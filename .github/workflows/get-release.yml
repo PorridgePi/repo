@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       # Write latest release version and IPA URL to file
-      - name: Write latest release version and IPA URL to file
+      - name: Fetch and write latest release version and IPA URL to file
         run: |
           curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | jq -r ".tag_name" > release-versions/uYouPlus-version.txt
           curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | jq -r '.assets[]' | jq -r '.browser_download_url' >> release-versions/uYouPlus-version.txt
