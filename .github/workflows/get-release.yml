@@ -21,7 +21,7 @@ jobs:
       - name: Commit latest release version
         if: steps.git-check.outputs.modified == 'true'
         run: |
-          git config --global user.name 'PorridgePi'
+          git config --global user.name 'latest-release-bot'
           git config --global user.email '34623167+PorridgePi@users.noreply.github.com'
           git commit -am "update: New uYouPlus release"
           git push
