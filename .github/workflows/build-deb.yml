@@ -27,16 +27,16 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install permasigner
 
-      # Obtain IPA URL from file
-      - name: Obtain IPA URL from file
-        id: getURL
+      # Obtain IPA URL and version from file
+      - name: Obtain IPA URL and version from file
+        id: get-info
         run: |
-          echo "::set-output name=uYouPlusURL::$(sed -n 2p release-versions/uYouPlus-version.txt)"
-          echo "::set-output name=uYouPlusVersion::$(sed -n 1p release-versions/uYouPlus-version.txt)"
+          echo "::set-output name=uYouPlus-url::$(sed -n 2p release-versions/uYouPlus-version.txt)"
+          echo "::set-output name=uYouPlus-version::$(sed -n 1p release-versions/uYouPlus-version.txt)"
 
       # Build DEB from IPA with permasigner
       - name: Build DEB from IPA with permasigner
-        run: permasigner -u ${{ steps.getURL.outputs.uYouPlusURL }} -d -o debs/
+        run: permasigner -u ${{ steps.get-info.outputs.uYouPlus-url }} -d -o debs/
 
       # Generate Packages.bz2 with scripts
       - name: Generate Packages.bz2 with scripts
@@ -54,7 +54,7 @@ jobs:
         run: |
           git add debs/
           git add Packages.bz2
-          git commit -m "update: uYouPlus ${{ steps.getURL.outputs.uYouPlusVersion }}"
+          git commit -m "update: uYouPlus ${{ steps.get-info.outputs.uYouPlus-version }}"
 
       # Push commits to GitHub
       - name: Push commits to GitHub
