@@ -32,6 +32,7 @@ jobs:
         id: getURL
         run: |
           echo "::set-output name=uYouPlusURL::$(sed -n 2p release-versions/uYouPlus-version.txt)"
+          echo "::set-output name=uYouPlusVersion::$(sed -n 1p release-versions/uYouPlus-version.txt)"
 
       # Run permasigner
       - name: Run script
@@ -42,5 +43,6 @@ jobs:
         run: |
           git config --global user.name 'latest-release-bot'
           git config --global user.email 'latest-release-bot@example.com'
-          git commit -am "update: New uYouPlus deb"
+          git add debs/
+          git commit -m "update: uYouPlus ${{ steps.getURL.outputs.uYouPlusVersion }}"
           git push
