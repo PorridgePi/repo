@@ -35,7 +35,7 @@ jobs:
 
       # Run permasigner
       - name: Run script
-        run: permasigner -u ${{ steps.getURL.uYouPlusURL }} -d
+        run: permasigner -u ${{ steps.getURL.outputs.uYouPlusURL }} -d
 
       # Upload test artifact
       - name: Upload artifact
