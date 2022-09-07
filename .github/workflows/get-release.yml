@@ -20,6 +20,13 @@ jobs:
           curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | jq -r ".tag_name" > release-versions/uYouPlus-version.txt
           curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | jq -r '.assets[]' | jq -r '.browser_download_url' >> release-versions/uYouPlus-version.txt
 
+      # Obtain IPA URL and version from file
+      - name: Obtain IPA URL and version from file
+        id: get-info
+        run: |
+          echo "::set-output name=uYouPlus-url::$(sed -n 2p release-versions/uYouPlus-version.txt)"
+          echo "::set-output name=uYouPlus-version::$(sed -n 1p release-versions/uYouPlus-version.txt)"
+
       # Check if version or URL is updated
       - name: Check if version or URL is updated
         id: check-update
@@ -36,7 +43,7 @@ jobs:
       - name: Commit file to repository if updated
         if: steps.check-update.outputs.updated == 'true'
         run: |
-          git commit -am "update: New uYouPlus release"
+          git commit -m "release: uYouPlus ${{ steps.get-info.outputs.uYouPlus-version }}"
 
       # Push commits to GitHub if updated
       - name: Push commits to GitHub
