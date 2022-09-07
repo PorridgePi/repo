@@ -43,3 +43,13 @@ jobs:
         with:
           name: App.deb
           path: output/*
+
+      - name: Commit latest release version
+        run: |
+          ls .
+          ls output/
+          git config --global user.name 'latest-release-bot'
+          git config --global user.email '34623167+PorridgePi@users.noreply.github.com'
+          # git commit -am "update: New uYouPlus deb"
+          # git push
+
