@@ -1,27 +1,48 @@
-name: Get latest release version
+name: get-latest-release
+
 on:
   schedule:
-    - cron:  '0 10 * * *'
+    - cron: '0 10 * * *'
   workflow_dispatch:
+
 jobs:
-  get-version:
+  update-file:
     runs-on: ubuntu-latest
     environment: production
+
     steps:
-      - uses: actions/checkout@v2
+      # Checkout repository for job to access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_REPO_TOKEN }}
-      - name: Fetch release version
+
+      # Write latest release version and IPA URL to file
+      - name: Write latest release version and IPA URL to file
         run: |
           curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | jq -r ".tag_name" > release-versions/uYouPlus-version.txt
           curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | jq -r '.assets[]' | jq -r '.browser_download_url' >> release-versions/uYouPlus-version.txt
-      - name: Check for modified files
-        id: git-check
-        run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
-      - name: Commit latest release version
-        if: steps.git-check.outputs.modified == 'true'
+
+      # Check if version or URL is updated
+      - name: Check if version or URL is updated
+        id: check-update
+        run: |
+          echo ::set-output name=updated::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+
+      # Configure Git
+      - name: Configure Git
         run: |
           git config --global user.name 'latest-release-bot'
           git config --global user.email 'latest-release-bot@example.com'
+
+      # Commit file to repository if updated
+      - name: Commit file to repository if updated
+        if: steps.git-check.outputs.updated == 'true'
+        run: |
           git commit -am "update: New uYouPlus release"
+
+      # Push commits to GitHub if updated
+      - name: Push commits to GitHub
+        if: steps.check-update.outputs.updated == 'true'
+        run: |
           git push
