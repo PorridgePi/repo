@@ -13,8 +13,8 @@ jobs:
           token: ${{ secrets.GH_REPO_TOKEN }}
       - name: Fetch release version
         run: |
-          curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | \
-          jq -r ".tag_name" > uYouPlus-latest.txt
+          curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | jq -r ".tag_name" > release-versions/uYouPlus-version.txt
+          curl -sL https://api.github.com/repos/qnblackcat/uYouPlus/releases/latest | jq -r '.assets[]' | jq -r '.browser_download_url' >> release-versions/uYouPlus-version.txt
       - name: Check for modified files
         id: git-check
         run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
