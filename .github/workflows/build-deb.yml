@@ -35,14 +35,12 @@ jobs:
 
       # Run permasigner
       - name: Run script
-        run: permasigner -u ${{ steps.getURL.outputs.uYouPlusURL }} -d -o output/
+        run: permasigner -u ${{ steps.getURL.outputs.uYouPlusURL }} -d -o debs/
 
       # Commit deb to repo
       - name: Commit latest release version
         run: |
-          ls -la .
-          ls -la output/
           git config --global user.name 'latest-release-bot'
           git config --global user.email 'latest-release-bot@example.com'
-          # git commit -am "update: New uYouPlus deb"
-          # git push
+          git commit -am "update: New uYouPlus deb"
+          git push
