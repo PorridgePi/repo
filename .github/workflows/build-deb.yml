@@ -1,5 +1,41 @@
+name: Build Deb
+
 on:
   push:
     paths:
       - 'release-versions/*'
   workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Setup which version of Python to use
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      # Install permasigner
+      - name: Install permasigner
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install permasigner
+
+      # Obtain uYouPlus URL from file
+      - name: Obtain uYouPlus URL from file
+        id: getURL
+        run: |
+          echo ::set-output name=uYouPlusURL::$(sed -n 2p uYouPlus-latest.txt)
+
+      # Run permasigner
+      - name: Run script
+        run: permasigner -u ${{ steps.getURL.uYouPlusURL }} -d
+
+      # Upload test artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: App.deb
+          path: output/*
