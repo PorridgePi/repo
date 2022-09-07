@@ -37,13 +37,7 @@ jobs:
       - name: Run script
         run: permasigner -u ${{ steps.getURL.outputs.uYouPlusURL }} -d
 
-      # Upload test artifact
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: App.deb
-          path: output/*
-
+      # Commit deb to repo
       - name: Commit latest release version
         run: |
           ls .
