@@ -1,6 +1,13 @@
 #!/bin/bash
 
-rm Packages*
-./dpkg-scanpackages -m . /dev/null >Packages
-bzip2 Packages
+currentDir=$(pwd)
+scriptDir=$(dirname "$0")
 
+cd $currentDir
+rm Packages*
+
+cd $scriptDir
+./dpkg-scanpackages -m $currentDir /dev/null > $currentDir/Packages
+
+cd $currentDir
+bzip2 Packages
