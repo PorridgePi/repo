@@ -34,7 +34,7 @@ jobs:
 
       # Commit file to repository if updated
       - name: Commit file to repository if updated
-        if: steps.git-check.outputs.updated == 'true'
+        if: steps.check-update.outputs.updated == 'true'
         run: |
           git commit -am "update: New uYouPlus release"
 
