@@ -46,6 +46,7 @@ jobs:
       - name: Commit file to repository if updated
         if: steps.check-update.outputs.updated == 'true'
         run: |
+          git add release-versions/uYouPlus-version.txt
           git commit -m "release: uYouPlus ${{ steps.get-info.outputs.uYouPlus-version }}"
 
       # Push commits to GitHub if updated
