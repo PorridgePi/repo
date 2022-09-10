@@ -12,10 +12,6 @@ cd $scriptDir
 cd $currentDir
 
 workingDir="$currentDir/"
-
-echo $workingDir
-cat Packages
-
 sed -i -e "s@$workingDir@@" Packages
 
 bzip2 Packages
