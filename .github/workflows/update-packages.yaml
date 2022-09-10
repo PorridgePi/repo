@@ -16,6 +16,8 @@ jobs:
       - name: Generate Packages.bz2 with scripts
         run: |
           bash scripts/UpdateRepo.sh
+          bzip2 -dk Packages.bz2
+          cat Packages
 
       # Configure Git
       - name: Configure Git
@@ -23,7 +25,7 @@ jobs:
           git config --global user.name 'latest-release-bot'
           git config --global user.email 'latest-release-bot@example.com'
 
-      # Commit DEB file(s) and updated Packages.bz2 to repository
+      # Commit updated Packages.bz2 to repository
       - name: Commit DEB file(s) and updated Packages.bz2 to repository
         run: |
           git add Packages.bz2
