@@ -1,0 +1,35 @@
+name: update-packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository for job to access it
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Generate Packages.bz2 with scripts
+      - name: Generate Packages.bz2 with scripts
+        run: |
+          bash scripts/UpdateRepo.sh
+
+      # Configure Git
+      - name: Configure Git
+        run: |
+          git config --global user.name 'latest-release-bot'
+          git config --global user.email 'latest-release-bot@example.com'
+
+      # Commit DEB file(s) and updated Packages.bz2 to repository
+      - name: Commit DEB file(s) and updated Packages.bz2 to repository
+        run: |
+          git add Packages.bz2
+          git commit -m "update: Packages.bz2"
+
+      # Push commits to GitHub
+      - name: Push commits to GitHub
+        run: |
+          git push
