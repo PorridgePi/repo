@@ -11,6 +11,6 @@ cd $scriptDir
 
 cd $currentDir
 
-workingDir="$currentDir/" && gsed -i -e "s@$workingDir@@" Packages
+workingDir="$currentDir//" && sed -i -e "s@$workingDir@@" Packages
 
 bzip2 Packages
