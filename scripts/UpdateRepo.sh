@@ -10,4 +10,7 @@ cd $scriptDir
 ./dpkg-scanpackages -m $currentDir /dev/null > $currentDir/Packages
 
 cd $currentDir
+
+workingDir="$(pwd)/" && gsed -i -e "s@$workingDir@@" Packages
+
 bzip2 Packages
