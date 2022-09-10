@@ -11,7 +11,7 @@ cd $scriptDir
 
 cd $currentDir
 
-workingDir="$currentDir//"
+workingDir="$currentDir/"
 
 echo $workingDir
 cat Packages
