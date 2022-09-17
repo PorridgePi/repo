@@ -1,1 +1,2 @@
-null
+v17.36.4-2.1
+https://github.com/qnblackcat/uYouPlus/releases/download/v17.36.4-2.1/uYouPlus_17.36.4_2.1.ipa
