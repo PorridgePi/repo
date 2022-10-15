@@ -1,2 +1,2 @@
-v17.39.5-2.1
-https://github.com/qnblackcat/uYouPlus/releases/download/v17.39.5-2.1/uYouPlus_17.39.5_2.1.ipa
+v17.40.5-2.1
+https://github.com/qnblackcat/uYouPlus/releases/download/v17.40.5-2.1/uYouPlus_17.40.5_2.1.ipa
