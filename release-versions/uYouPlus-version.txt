@@ -1,2 +1,2 @@
-v18.07.5-2.3.1
-https://github.com/qnblackcat/uYouPlus/releases/download/v18.07.5-2.3.1/uYouPlus_18.07.5_2.3.1.ipa
+v18.08.1-2.3.1
+https://github.com/qnblackcat/uYouPlus/releases/download/v18.08.1-2.3.1/uYouPlus_18.08.1_2.3.1.ipa
